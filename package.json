@@ -25,7 +25,16 @@
     "package.json",
     "contribute.json"
   ],
+  "engines": {
+    "node": "16.13.2"
+  },
   "style": "bundle.css",
+  "scriptsComments": {
+    "scalingo-postbuild": "when present, this script is automatically run for building by scalingo. 'build' script will not be run.",
+    "build:scalingo": "specific to scalingo builds. Uses the old-school build system without yarn links, which builds inside the node_modules directories.",
+    "build:js-sdk": "uses the yarn-sub script, which creates a subprocess, to run yarn install and yarn build inside node_modules/matrix-js-sdk. The flag --production=false is to force install of devDependencies, which we need for building.",
+    "build:react-sdk": "same as build:js-sdk for matrix-react-sdk."
+  },
   "scripts": {
     "i18n": "matrix-gen-i18n",
     "prunei18n": "matrix-prune-i18n",
@@ -42,7 +51,11 @@
     "build:modernizr": "modernizr -c .modernizr.json -d src/vector/modernizr.js",
     "build:bundle": "webpack --progress --bail --mode production",
     "build:bundle-stats": "webpack --progress --bail --mode production --json > webpack-stats.json",
+    "build:scalingo": "yarn build:js-sdk && yarn build:react-sdk && yarn build",
+    "build:js-sdk": "node scripts/yarn-sub.js matrix-js-sdk install --production=false && node scripts/yarn-sub.js matrix-js-sdk build",
+    "build:react-sdk": "node scripts/yarn-sub.js matrix-react-sdk install --production=false && node scripts/yarn-sub.js matrix-react-sdk build:compile",
     "dist": "scripts/package.sh",
+    "scalingo-postbuild": "scripts/package-scalingo.sh",
     "start": "concurrently --kill-others-on-fail --prefix \"{time} [{name}]\" -n reskindex,reskindex-react,res,element-js \"yarn reskindex:watch\" \"yarn reskindex:watch-react\" \"yarn start:res\" \"yarn start:js\"",
     "start:https": "concurrently --kill-others-on-fail --prefix \"{time} [{name}]\" -n reskindex,reskindex-react,res,element-js \"yarn reskindex:watch\" \"yarn reskindex:watch-react\" \"yarn start:res\" \"yarn start:js --https\"",
     "start:res": "yarn build:jitsi && node scripts/copy-res.js -w",
