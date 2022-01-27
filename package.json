@@ -52,7 +52,7 @@
     "build:bundle": "webpack --progress --bail --mode production",
     "build:bundle-stats": "webpack --progress --bail --mode production --json > webpack-stats.json",
     "build:scalingo": "yarn build:js-sdk && yarn build:react-sdk && yarn build",
-    "build:js-sdk": "node scripts/yarn-sub.js matrix-js-sdk install --production=false && node scripts/yarn-sub.js matrix-js-sdk build",
+    "build:js-sdk": "node scripts/yarn-sub.js matrix-js-sdk install --production=false && node scripts/yarn-sub.js matrix-js-sdk build:compile",
     "build:react-sdk": "node scripts/yarn-sub.js matrix-react-sdk install --production=false && node scripts/yarn-sub.js matrix-react-sdk build:compile",
     "dist": "scripts/package.sh",
     "scalingo-postbuild": "scripts/package-scalingo.sh",
