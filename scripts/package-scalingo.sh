@@ -19,9 +19,6 @@ cp config.sample.json webapp/config.json
 mkdir -p dist
 cp -r webapp $PRODUCT_NAME-$version
 
-# Just in case you have a local config, remove it before packaging
-rm $PRODUCT_NAME-$version/config.json || true
-
 $(dirname $0)/normalize-version.sh ${version} > $PRODUCT_NAME-$version/version
 
 # Tchap: Do not make a tar file. Just copy the files in /dist, ready to be served.
@@ -29,4 +26,4 @@ cp -r $PRODUCT_NAME-$version/* dist/
 rm -r $PRODUCT_NAME-$version
 
 echo
-echo "Packaged dist/$PRODUCT_NAME-$version"
+echo "Packaged dist/ - $PRODUCT_NAME-$version"
