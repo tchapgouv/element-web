@@ -11,9 +11,8 @@ fi
 yarn clean
 VERSION=$version yarn build:scalingo
 
-# include the sample config in the tarball. Arguably this should be done by
-# `yarn build`, but it's just too painful.
-cp config.sample.json webapp/
+# Tchap : create a config file by copying the sample config.
+config.sample.json webapp/config.json
 
 mkdir -p dist
 cp -r webapp element-$version
